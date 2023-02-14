@@ -1,13 +1,17 @@
 .grid-container {
-  grid-template-columns: 70px 70px 70px;
-  grid-template-rows: 70px 70px 70px;
-  display: grid;
-  justify-content: center;
+  /* grid-template-columns: 70px 70px 70px;
+  grid-template-rows: 70px 70px 70px; */
+
+  display: flex;
+  flex-flow: wrap row;
+  width: 180px;
+  height: 180px;
 }
 
-.item {
-  /* padding: 0px; */
+.item{
+  padding: 0px;
   border: 1px solid black;
+  flex: 0 0 32%;
 }
 
 .button_cleanup {
