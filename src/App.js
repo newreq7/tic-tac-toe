@@ -1,23 +1,68 @@
-// import logo from './logo.svg';
-import './App.css';
-// import React, { useState } from 'react';
+import { useState } from 'react';
+import './App.css'
+
+
+const cellIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+const Characters = {
+  Circle: 'circle',
+  Cross: 'cross'
+}
 
 function App() {
-  // let [field, setField] = useState(null);
+  const nullsArr = [null, null, null, null, null, null, null, null, null]
+  
+  const [fields, setFields] = useState(nullsArr)
+  const [currentCharacter, setCurrentCharacter] = useState(Characters.Cross)
+
+  function handleSetFields(e) {
+
+    if (fields[e.target.id] !== null) return
+
+    const newFields = fields
+
+    newFields[e.target.id] = currentCharacter
+
+    setFields(newFields)
+
+    setCurrentCharacter(prev => prev === Characters.Circle ? Characters.Cross : Characters.Circle)
+  }
+
+  function cleanFields() {
+    setFields(nullsArr);
+  }
+
 
   return (
     <div id="root">
-      <button class="button_cleanup">cleanup</button>
+      <button class="button_cleanup" onClick = {cleanFields}>cleanup</button>
       <div class="grid-container">
-          <div class="item item1"></div>
-          <div class="item item2"></div>
-          <div class="item item3"></div>
-          <div class="item item4"></div>
-          <div class="item item5"></div>
-          <div class="item item6"></div>
-          <div class="item item7"></div>
-          <div class="item item8"></div>
-          <div class="item item9"></div>
+        {cellIds.map(cellId => {
+          if (fields[cellId] === Characters.Cross)
+            return (
+              <div class={`item item${cellId + 1}`} id={cellId} onClick={handleSetFields}>
+                <svg>
+                  <line x1="10" y1="10" x2="55" y2="55" stroke="blue" stroke-width="5" />
+                  <line x1="55" y1="10" x2="10" y2="55" stroke="blue" stroke-width="5" />
+                </svg>
+              </div>
+            )
+            
+          if (fields[cellId] === Characters.Circle)
+            return (
+              <div class={`item item${cellId + 1}`} id={cellId} onClick={handleSetFields}>
+                <svg height="100" width="100">
+                  <circle cx="35" cy="35" r="20" stroke="red" stroke-width="3" fill="white" />
+                </svg>
+              </div>
+            )
+
+
+          return (
+            <div class={`item item${cellId + 1}`} id={cellId} onClick={handleSetFields}>
+            </div>
+          )
+        })}
       </div>
     </div>
   );
