@@ -1,18 +1,13 @@
 import { useState } from 'react';
 import './App.css'
+import { cellIds, Characters, nullsArr } from './constants'
+import { Circle } from './components/circle'
+import { Cross } from './components/cross'
+import { CleanButton } from './components/cleanButton'
 
 
-const cellIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
-const Characters = {
-  Circle: 'circle',
-  Cross: 'cross'
-}
-
-function App() {
-  const nullsArr = [null, null, null, null, null, null, null, null, null]
-  
-  const [fields, setFields] = useState(nullsArr)
+function App() {  
+  const [fields, setFields] = useState([...nullsArr])
   const [currentCharacter, setCurrentCharacter] = useState(Characters.Cross)
 
   function handleSetFields(e) {
@@ -28,32 +23,27 @@ function App() {
     setCurrentCharacter(prev => prev === Characters.Circle ? Characters.Cross : Characters.Circle)
   }
 
-  function cleanFields() {
-    setFields(nullsArr);
+  const cleanFields = () => {
+    
+    setFields([...nullsArr]);
   }
-
 
   return (
     <div id="root">
-      <button class="button_cleanup" onClick = {cleanFields}>cleanup</button>
+      <CleanButton cleanFields={cleanFields} />
       <div class="grid-container">
         {cellIds.map(cellId => {
           if (fields[cellId] === Characters.Cross)
             return (
               <div class={`item item${cellId + 1}`} id={cellId} onClick={handleSetFields}>
-                <svg>
-                  <line x1="10" y1="10" x2="55" y2="55" stroke="blue" stroke-width="5" />
-                  <line x1="55" y1="10" x2="10" y2="55" stroke="blue" stroke-width="5" />
-                </svg>
+                <Cross />
               </div>
             )
             
-          if (fields[cellId] === Characters.Circle)
+            if (fields[cellId] === Characters.Circle)
             return (
               <div class={`item item${cellId + 1}`} id={cellId} onClick={handleSetFields}>
-                <svg height="100" width="100">
-                  <circle cx="35" cy="35" r="20" stroke="red" stroke-width="3" fill="white" />
-                </svg>
+                <Circle />
               </div>
             )
 
